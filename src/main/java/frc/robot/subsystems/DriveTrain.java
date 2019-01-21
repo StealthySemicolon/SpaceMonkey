@@ -11,12 +11,14 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.RobotMap;
 import frc.robot.helpers.CustomPIDOutput;
+import frc.robot.commands.DriveTrain.TeleopDrive;
 
 /**
  * Add your docs here.
@@ -58,6 +60,10 @@ public class DriveTrain extends Subsystem {
     encoderX.setReverseDirection(false);
     encoderY.setReverseDirection(false);
 
+    // Set encoders to output speed instead of displacement for PID
+    encoderX.setPIDSourceType(PIDSourceType.kRate);
+    encoderY.setPIDSourceType(PIDSourceType.kRate);
+
     // Reset the encoders to their initial state
     encoderX.reset();
     encoderY.reset();
@@ -67,21 +73,16 @@ public class DriveTrain extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new TeleopDrive());
   }
 
   public void pidDrive(double targetSpeedX, double targetSpeedY) {
-    double pidOutputX = 0.0;
-    double pidOutputY = 0.0;
+    pidControllerX.SetSetpoint(targetSpeedX);
+    pidControllerY.SetSetpoint(targetSpeedY);
 
+    double pidOutputX = outputX.getOutput();
+    double pidOutputY = outputY.getOutput();
 
-    // mecanumDrive.driveCartesian(pidOutputY, pidOutputX, 0);
-  }
-
-  private double getVelocityX() {
-    return encoderX.getRate();
-  }
-
-  private double getVelocityY() {
-    return encoderY.getRate();
+    mecanumDrive.driveCartesian(pidOutputY, pidOutputX, 0);
   }
 }
