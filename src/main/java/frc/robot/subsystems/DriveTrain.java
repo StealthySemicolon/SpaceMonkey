@@ -10,10 +10,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.RobotMap;
+import frc.robot.helpers.CustomPIDOutput;
 
 /**
  * Add your docs here.
@@ -30,6 +33,12 @@ public class DriveTrain extends Subsystem {
   private MecanumDrive mecanumDrive = new MecanumDrive(frontLeft, backLeft, frontRight, backRight);
 
   private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+
+  private CustomPIDOutput outputX = new CustomPIDOutput();
+  private CustomPIDOutput outputY = new CustomPIDOutput();
+
+  private PIDController pidControllerX = new PIDController(1, 1, 1, 1, encoderX, outputX);
+  private PIDController pidControllerY = new PIDController(1, 1, 1, 1, encoderY, outputY);
  
   // private PIDController pidController = new PIDController();
 
