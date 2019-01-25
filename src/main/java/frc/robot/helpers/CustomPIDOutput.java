@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.PIDOutput;
 /**
  * Add your docs here.
  */
-public class CustomPIDOutput extends PIDOutput {
-    private double output_value = 0.0;
+public class CustomPIDOutput implements PIDOutput {
+    private double output_value = 0.0;    
     @Override
-    private void pidWrite(double c){
+    public void pidWrite(double c){
         output_value  = c;
     }
     public double getOutput(){

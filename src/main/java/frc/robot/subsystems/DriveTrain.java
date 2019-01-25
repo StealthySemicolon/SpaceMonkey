@@ -79,8 +79,8 @@ public class DriveTrain extends Subsystem {
   }
 
   public void pidDrive(double targetSpeedX, double targetSpeedY) {
-    pidControllerX.SetSetpoint(targetSpeedX);
-    pidControllerY.SetSetpoint(targetSpeedY);
+    pidControllerX.setSetpoint(targetSpeedX);
+    pidControllerY.setSetpoint(targetSpeedY);
 
     double pidOutputX = outputX.getOutput();
     double pidOutputY = outputY.getOutput();
